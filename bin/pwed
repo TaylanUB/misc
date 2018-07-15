@@ -1,0 +1,25 @@
+#!/bin/sh
+
+file=$HOME_DATA/pwd.aes
+
+>> "$file"
+chmod 600 "$file"
+
+cp "$file" "$file-"
+
+tmp=${TMPDIR:-/tmp}/pwed-$$
+
+>> "$tmp"
+chmod 600 "$tmp"
+trap 'rm -f "$tmp"' INT TERM EXIT
+
+until openssl aes-256-cbc -d
+do true
+done < "$file" > "$tmp"
+
+"${VISUAL:-${EDITOR:-vi}}" "$tmp"
+
+[ $? -eq 0 ] &&
+until openssl aes-256-cbc -salt
+do true
+done < "$tmp" | sponge "$file"

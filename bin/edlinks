@@ -1,0 +1,27 @@
+#!/bin/sh
+
+Ed(){ "${VISUAL:-${EDITOR:-vi}}" "$@"; }
+
+Error(){ echo >&2 error; exit 1; }
+
+tmp=${TMPDIR:-/tmp}/edlinks-$$
+mkdir "$tmp" || Error
+
+for link
+do
+    readlink "$link" >> "$tmp" || Error
+done
+
+Ed "$tmp" || Error
+
+test $# -eq $(wc -l < "$tmp") || Error
+
+i=1
+while IFS= read -r line
+do
+    eval '
+        rm "${'$i'}"
+        ln -s "$line" "${'$i'}"
+    ' || Error
+    i=$(($i+1))
+done < "$tmp"

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+in=$1
+out=$2
+quality=$3
+shift 3 || exit
+
+exec convert "$in" -strip -interlace Plane -quality "$quality" "$@" "$out"

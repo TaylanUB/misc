@@ -1,0 +1,8 @@
+browse-kill-ring
+dictionary
+fill-column-indicator
+xterm-color
+
+dictionary deps:
+- connection
+- link

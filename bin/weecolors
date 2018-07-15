@@ -1,0 +1,11 @@
+#!/bin/sh
+
+f=$WEECHAT_DATA/colors
+
+read c < "$f"
+
+IFS=,; set -- $c; c1=$1; shift; c=$*,$c1
+
+printf '%s\n' "$c" > "$f"
+
+c=$c find "$WEECHAT_FIFOS" -type p -exec sh -c 'for p; do echo "*/mute set weechat.color.chat_nick_colors $c" > "$p"; done' -- {} +

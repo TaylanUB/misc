@@ -1,0 +1,5 @@
+[Unit]
+Description=Freenet tunnel to T61
+
+[Service]
+ExecStart=/bin/sh -c 'exec ssh t61 -NL 8888:localhost:8888'

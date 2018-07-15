@@ -1,0 +1,40 @@
+#!/usr/bin/env guile
+!#
+
+(use-modules (html simple)
+             (ice-9 ftw))
+
+(unless (= 1 (length (cdr (program-arguments))))
+  (display "Error: only one argument accepted.\n" (current-error-port))
+  (exit 1))
+
+(define (mapdir dir proc)
+  (map proc
+       (scandir dir (lambda (file)
+                      (not (member file '("." ".." "index.html")))))))
+
+(define (format-size size)
+  (let lp ((units '("B" "KiB" "MiB" "GiB" "TiB" "PiB" "EiB" "ZiB" "YiB"))
+           (size size))
+    (if (or (< size 1024) (null? (cdr units)))
+        (format #f "~,2f ~a" size (car units))
+        (lp (cdr units)
+            (/ size 1024.0)))))
+
+(define (list-file file)
+  `(li (a (@ (href ,file))
+          ,(let ((st (stat file)))
+             (case (stat:type st)
+               ((regular)
+                (format #f "~a (~a)" file (format-size (stat:size st))))
+               (else
+                (format #f "~a" file)))))))
+
+(let* ((dir (cadr (program-arguments)))
+       (title (string-append "Directory listing: " dir)))
+  (write-html-document
+   (make-html-document
+    title
+    `(body
+      (h1 ,title)
+      (ul ,@(mapdir dir list-file))))))

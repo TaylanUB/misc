@@ -1,0 +1,22 @@
+#!/bin/sh
+
+cd "$HOME_SRC"/misc || exit
+
+git rm -rfq bin etc
+
+rm -rf bin etc
+
+cd
+
+find bin etc \( -type d \( -perm -0005 -o -prune \) -o -type f -perm -0004 \) \
+     -print0 | cpio --null --quiet -pd "$HOME_SRC"/misc
+
+cd "$HOME_SRC"/misc
+
+git add .
+
+ts=$(date -u '+%Y-%m-%d %H:%M:%S')
+
+git diff --cached --quiet || git commit -qm "$ts"
+
+git push -q origin master

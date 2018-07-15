@@ -1,0 +1,6 @@
+#!/bin/sh
+# Wrapper for "#!/usr/bin/env" shebangs.
+
+script=$1
+shift
+exec emacs --script "$script" -- "$@"

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+test $# -eq 3 || (
+    echo "Usage: audio2video audio.wav video.jpg output.mp4"
+    exit 1
+)
+
+audio=$1
+video=$2
+output=$3
+
+ffmpeg -i "$audio" -loop 1 -i "$video" -c:v libx264 -tune stillimage \
+       -c:a aac -b:a 192k -pix_fmt yuv420p -shortest "$output"

@@ -1,0 +1,5 @@
+[Unit]
+Description=ngIRCd: Next Generation IRC Daemon
+
+[Service]
+ExecStart=/bin/sh -c 'exec ngircd -n -f "$HOME_CONFIG"/ngircd/conf'

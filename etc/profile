@@ -1,0 +1,126 @@
+# Taylan's ~/.profile
+#
+# This shell-executed file imperatively sets up the environment variables.
+#
+# The result is also saved in ~/etc/environment, whose every line matches a
+# strict FOO=BAR format and thus can be parsed trivially.
+
+> ~/etc/environment
+
+define(){
+    eval export \"$1=\$2\"
+    printf '%s=%s\n' "$1" "$2" >> ~/etc/environment
+}
+
+. /etc/profile
+
+export HOME TERM
+
+# Generic:
+
+define LANG "C"
+define LANGUAGE "C"
+define LC_CTYPE "en_US.UTF-8"
+
+define EMAIL "taylanbayirli@gmail.com"
+
+# Programs:
+
+define EDITOR "emacsclient"
+define VISUAL "emacsclient"
+define VTERM  "xterm"
+define WWW    "conkeror"
+define XWM    "ratpoison"
+
+define ALTERNATE_EDITOR ""
+
+# Configuration:
+
+define LESS "-iJMR -j20 -z-5"
+
+# Directories:
+
+define HOME_BIN    "$HOME/bin"
+define HOME_CONFIG "$HOME/etc"
+define HOME_LOG    "$HOME/log"
+define HOME_SRC    "$HOME/src"
+define HOME_JUNK   "$HOME/.junk"
+define HOME_TMP    "$HOME_JUNK/tmp"
+
+define X_CONFIG "$HOME_CONFIG/x"
+
+define XDG_CONFIG_HOME "$HOME_JUNK/xdg/config"
+define XDG_DATA_HOME   "$HOME_JUNK/xdg/local/share"
+define XDG_CACHE_HOME  "$HOME_JUNK/xdg/cache"
+
+define TMPDIR "/tmp"
+
+define MAILDIR "$HOME_JUNK/Mail"
+
+define GNUPGHOME "$HOME_CONFIG/gnupg"
+
+define EMACS_LIBRARY_DIR "$HOME_SRC/elisp"
+define EMACS_CONFIG_DIR  "$HOME_CONFIG/emacs"
+define EMACS_JUNK_DIR    "$HOME_JUNK/emacs"
+define SAVEDIR "$HOME_JUNK/savedir"
+
+define CONKEROR_CONFIG_DIR "$HOME_CONFIG/conkeror"
+
+define SHELLPLAYER_CONFIG_DIR "$HOME_CONFIG/shellplayer"
+define SHELLPLAYER_CONFIG "$SHELLPLAYER_CONFIG_DIR/config"
+define SHELLPLAYER_TMPDIR "$HOME_TMP/shellplayer"
+
+# Files:
+
+define ENV "$HOME_CONFIG/shenv"
+
+define HISTFILE "/dev/null"
+define RANDFILE "/dev/urandom"
+define LESSHISTFILE "/dev/null"
+
+define AUTHINFO "$HOME_CONFIG/authinfo.gpg"
+
+define GUILE_HISTORY "$HOME_TMP/guile-history"
+
+define XINITRC "$HOME_CONFIG/x/initrc"
+define XENVIRONMENT "$HOME_CONFIG/x/resources"
+
+# Pathes:
+
+p=/run/current-system/profile
+
+define PATH              "$HOME/bin:$XDG_CONFIG_HOME/guix/current/bin:\
+/run/setuid-programs:$p/bin:$p/sbin"
+
+define MANPATH           "$p/share/man"
+define INFOPATH          "$p/share/info"
+define DICPATH           "$p/share/hunspell"
+
+define C_INCLUDE_PATH    "$p/include"
+define LIBRARY_PATH      "$p/lib"
+define ACLOCAL_PATH      "$p/share/aclocal"
+define PKG_CONFIG_PATH   "$p/lib/pkgconfig:$p/share/pkgconfig"
+
+define BASH_LOADABLES_PATH "$p/lib/bash"
+
+define XDG_DATA_DIRS     "$p/share"
+define XDG_CONFIG_DIRS   "$p/etc/xdg"
+
+define XCURSOR_PATH      "$p/share/icons"
+
+define GUIX_GTK3_PATH    "$p/lib/gtk-3.0"
+
+define GIO_EXTRA_MODULES "$p/lib/gio/modules"
+
+define GST_PLUGIN_SYSTEM_PATH "$p/lib/gstreamer-1.0"
+
+define GIT_EXEC_PATH     "$p/libexec/git-core"
+define GIT_SSL_CAINFO    "$p/etc/ssl/certs/ca-certificates.crt"
+
+define GUILE_LOAD_PATH "$p/share/guile/site/2.2"
+define GUILE_LOAD_COMPILED_PATH \
+       "$p/lib/guile/2.2/site-ccache:$p/share/guile/site/2.2"
+
+unset p
+
+# End of profile.

@@ -1,0 +1,16 @@
+#!/bin/sh
+
+synclient -l | while read -r var _ val
+do
+    case $var in (HorizTwoFingerScroll)
+            if [ $val -eq 0 ]
+            then
+                synclient HorizTwoFingerScroll=1
+                synclient VertTwoFingerScroll=0
+            else
+                synclient HorizTwoFingerScroll=0
+                synclient VertTwoFingerScroll=1
+            fi
+            break
+    esac
+done

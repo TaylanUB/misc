@@ -1,0 +1,8 @@
+#!/bin/sh
+
+bash -x ~/.profile 2>&1 > /dev/null |
+sed -n "/+ export .*=/ {
+  s/^+ export //
+  s/^'//; s/'$//; s/'\\''/'/g
+  p
+}" > ~/.ssh/environment

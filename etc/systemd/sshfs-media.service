@@ -1,0 +1,5 @@
+[Unit]
+Description=Mount ~/media from T61
+
+[Service]
+ExecStart=/bin/sh -c 'exec sshfs -f t61:media ~/media'

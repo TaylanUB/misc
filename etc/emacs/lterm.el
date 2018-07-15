@@ -1,0 +1,16 @@
+(load "xterm-color")
+(load "lterm")
+(load "lterm-mud")
+(add-to-list 'load-path (emacs-lib-dir "lterm/lterm-muds"))
+(load "lterm-mud-godwars2")
+
+(defun reload-lterm ()
+  (interactive)
+  (dolist (lib '("lterm" "lterm-mud" "lterm-mud-godwars2"))
+    (load-library lib)))
+
+(add-hook 'lterm-mud-mode-hook 'taylan-lterm-mud-mode-setup)
+(defun taylan-lterm-mud-mode-setup ()
+  (setq truncate-lines nil)
+  (add-to-list (make-local-variable 'lterm-output-filters)
+               (lambda (s) (not (string= "" s)))))

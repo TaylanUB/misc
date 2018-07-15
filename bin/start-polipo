@@ -1,0 +1,6 @@
+#!/bin/sh
+
+exec polipo \
+    daemonise=true \
+    diskCacheRoot= \
+    logFile=/dev/null

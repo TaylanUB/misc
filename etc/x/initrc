@@ -1,0 +1,12 @@
+#!/bin/sh
+
+gnome=yes
+
+if [ "$gnome" ]
+then
+    exec gnome-session
+else
+    xsetroot -solid black
+    xinitrc
+    exec "$XWM"
+fi

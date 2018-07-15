@@ -1,0 +1,32 @@
+#!/bin/sh
+
+if [ $# -ne 1 ]
+then
+    echo >&2 'Usage:  rpm2cpio <filename>'
+    exit
+fi
+
+if [ -t 1 ]
+then
+    echo >&2 'shamelessly refusing to write to terminal'
+    exit
+fi
+
+pkg=$1
+
+leadsize=96
+o=$(( $leadsize + 8 ))
+set -- $(od -j $o -N 8 -t u1 "$pkg")
+il=$(( 256 * ( 256 * ( 256 * $2 + $3 ) + $4 ) + $5 ))
+dl=$(( 256 * ( 256 * ( 256 * $6 + $7 ) + $8 ) + $9 ))
+
+sigsize=$(( 8 + 16 * $il + $dl))
+o=$(( $o + $sigsize + ( 8 - ( $sigsize % 8 ) ) % 8 + 8))
+set -- $(od -j $o -N 8 -t u1 "$pkg")
+il=$(( 256 * ( 256 * ( 256 * $2 + $3 ) + $4 ) + $5))
+dl=$(( 256 * ( 256 * ( 256 * $6 + $7 ) + $8 ) + $9))
+
+hdrsize=$(( 8 + 16 * $il + $dl ))
+o=$(( $o + $hdrsize ))
+
+dd if="$pkg" ibs=$o skip=1 2>/dev/null

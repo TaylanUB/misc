@@ -1,0 +1,3 @@
+set-option -g prefix C-t
+set-option -g status-bg colour22
+set-option -g default-terminal screen-256color

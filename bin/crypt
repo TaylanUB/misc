@@ -1,0 +1,28 @@
+#!/bin/sh
+
+name=${CRYPT_MOUNT_DEV:-crypt}
+file=${CRYPT_MOUNT_FILE:-~taylan/media/.crypt}
+dir=${CRYPT_MOUNT_DIR:-~taylan/media/crypt}
+
+Error()
+{
+    echo >&2 "\
+Usage: crypt on
+       crypt off"
+    exit 1
+}
+
+[ $# -eq 1 ] || Error
+
+case $1 in
+    (on)
+        sudo ~taylan/.guix-profile/sbin/cryptsetup create "$name" "$file"
+        sudo mount /dev/mapper/"$name" "$dir"
+        ;;
+    (off)
+        sudo umount /dev/mapper/"$name"
+        sudo ~taylan/.guix-profile/sbin/cryptsetup remove "$name"
+        ;;
+    (*)
+        Error
+esac

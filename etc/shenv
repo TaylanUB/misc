@@ -1,0 +1,21 @@
+# sh rc
+
+stty \
+    quit   undef \
+    kill   undef \
+    start  undef \
+    stop   undef \
+    rprnt  undef \
+    werase undef \
+    lnext  undef \
+    flush  undef \
+
+alias pingg="ping google.com"
+alias npingg="nping google.com"
+
+if [ "$TERM" = dumb ]
+then
+    export PAGER="cat"
+else
+    export PAGER="less"
+fi

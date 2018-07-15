@@ -1,0 +1,4 @@
+#!/bin/sh
+iconv -f "$1" |
+tr -d \\r |
+trfix

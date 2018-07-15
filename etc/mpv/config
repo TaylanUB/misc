@@ -1,0 +1,8 @@
+[default]
+fs=yes
+cache=10000
+cache-initial=1024
+vo=opengl
+volume-max=200
+volume=100
+quiet=yes

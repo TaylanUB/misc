@@ -1,0 +1,5 @@
+[Unit]
+Description=Mount ~/downloads from T61
+
+[Service]
+ExecStart=/bin/sh -c 'exec sshfs -f t61:downloads ~/downloads'

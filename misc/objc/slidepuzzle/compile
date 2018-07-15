@@ -1,0 +1,1 @@
+gcc -o puzzle -std=c99 -lgnustep-gui -fconstant-string-class=NSConstantString *.m

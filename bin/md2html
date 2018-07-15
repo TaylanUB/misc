@@ -1,0 +1,7 @@
+#!/bin/sh
+
+pandoc \
+  --from=markdown_github-hard_line_breaks+pandoc_title_block+footnotes \
+  --standalone \
+  --to=html \
+  "$@"

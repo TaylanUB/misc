@@ -1,0 +1,5 @@
+[Unit]
+Description=X.Org Server
+
+[Service]
+ExecStart=/bin/sh -c 'exec xinit -- vt1'

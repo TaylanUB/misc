@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if ! (mount | grep -q ~/media)
+then
+    echo >&2 "No ~/media mount."
+    exit 1
+else
+    exec runreal rtorrent "$@"
+fi

@@ -1,0 +1,6 @@
+[Unit]
+Description=IMAP Synchronizer
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh -c 'isync -c "$HOME_CONFIG"/isync -a'

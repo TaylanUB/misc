@@ -1,0 +1,6 @@
+[Unit]
+Description=I2P Router
+
+[Service]
+Type=forking
+ExecStart=/bin/sh -c 'nice -n 10 i2prouter start'

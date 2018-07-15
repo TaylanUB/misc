@@ -1,0 +1,3 @@
+#!/bin/sh
+
+xkbcomp "$X_CONFIG"/colemak.xkb "$DISPLAY"

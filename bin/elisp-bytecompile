@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+# Usage: elisp-bytecompile [<flag> <flag*> ... --] <file> <file*> ...
+
+i=0
+encountereddash=false
+for arg
+do
+    shift
+    case $arg in
+        (--)
+            encountereddash=true
+            break
+            ;;
+        (*)
+            args[i++]=$arg
+    esac
+done
+
+if $encountereddash
+then
+    exec "${EMACS_EXECUTABLE:-emacs}" -Q --batch -L . "${args[@]}" \
+        --eval "(batch-byte-compile t)" "$@"
+else
+    exec "${EMACS_EXECUTABLE:-emacs}" -Q --batch -L . \
+        --eval "(batch-byte-compile t)" "${args[@]}"
+fi

@@ -1,0 +1,6 @@
+[Unit]
+Description=rTorrent
+
+[Service]
+Type=forking
+ExecStart=/bin/sh -c 'tmux new -d -s rtorrent rtorrent'

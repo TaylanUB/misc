@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+apt_search(){
+    aptitude search -F %p --disable-columns "$@"
+}
+
+deb_base(){
+    apt_search '~E|~prequired|~pstandard|~pimportant' | grep -v ':i386$'
+}
+
+deb_installed(){
+    apt_search '~i !~M' | sort -u
+}
+deb_desired(){
+    deb_base | sort -u - "$HOME_CONFIG"/paclists/debian/* | grep -v '^#'
+}
+
+guix_installed(){
+    guix package -I |
+        while read pkg version out _
+        do
+            case $out in
+                (out) printf '%s\n' "$pkg" ;;
+                (*) printf '%s:%s\n' "$pkg" "$out"
+            esac
+        done |
+        sort
+}
+guix_desired(){
+    sort -u "$HOME_CONFIG"/paclists/guix/* | grep -v '^#'
+}
+
+echo '=== DEBIAN ==='
+diff -y --suppress-common \
+     <(echo 'INSTALLED'; deb_installed) \
+     <(echo 'DESIRED'; deb_desired)
+echo
+echo '=== GUIX ==='
+diff -y --suppress-common \
+     <(echo 'INSTALLED'; guix_installed) \
+     <(echo 'DESIRED'; guix_desired)

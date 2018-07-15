@@ -1,0 +1,10 @@
+#!/bin/sh
+
+# Debian 7 (wheezy)'s cron sets LOGNAME only and not USER.
+if [ -z "$USER" ] && [ "$LOGNAME" ]
+then export USER=$LOGNAME
+fi
+
+. "$HOME"/.profile
+
+exec "$@"

@@ -1,0 +1,46 @@
+set font terminus-14:bold
+set padding 0 0 0 0
+set border 0
+
+undefinekey top C-t
+
+definekey top s-w windows
+
+definekey top s-o other
+definekey top s-a other
+
+definekey top s-n next
+definekey top s-p prev
+
+definekey top s-semicolon colon
+
+definekey top s-minus select -
+definekey top s-0 select 0
+definekey top s-1 select 1
+definekey top s-2 select 2
+definekey top s-3 select 3
+definekey top s-4 select 4
+definekey top s-5 select 5
+definekey top s-6 select 6
+definekey top s-7 select 7
+definekey top s-8 select 8
+definekey top s-9 select 9
+
+definekey top s-b exec "$WWW"
+definekey top s-x exec "$VTERM"
+definekey top s-e exec ecl
+
+definekey top s-t exec ratpoison -c "echo $(date '+%H:%M:%S  %a  %Y-%m-%d')"
+definekey top s-O exec sleep 1; xset dpms force off
+definekey top s-m exec ratpoison -c "echo $(acpi -bat)"
+
+definekey top s-F9  exec toggle-synaptics
+definekey top s-F10 exec setxkbmap de; ratpoison -c 'echo xkbmap:de'
+definekey top s-F11 exec xsetkb; ratpoison -c 'echo xkbmap:colemak'
+
+definekey top Print exec screenshot
+
+definekey top s-s exec toggle-horizontal-scroll
+
+definekey top XF86AudioRaiseVolume exec amixer set Master 1%+; ratpoison -c "echo $(amixer get Master | tail -n 2)"
+definekey top XF86AudioLowerVolume exec amixer set Master 1%-; ratpoison -c "echo $(amixer get Master | tail -n 2)"

@@ -1,0 +1,5 @@
+[Unit]
+Description=I2P tunnel to T61
+
+[Service]
+ExecStart=/bin/sh -c 'exec ssh t61 -NL 7657:localhost:7657'

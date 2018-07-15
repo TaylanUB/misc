@@ -1,0 +1,45 @@
+#!/bin/sh
+
+. "${ADSL_KOTA_CONF:-${HOME_CONFIG:-${XDG_CONFIG_HOME:-$HOME/.config}}/adslkota}"
+
+tmp=${TMPDIR:-/tmp}/adslkota-$$
+mkdir "$tmp" || exit
+trap 'rm -rf "$tmp"' INT TERM EXIT
+cd "$tmp"
+
+base=https://adslkota.turktelekom.com.tr/adslkota
+login=login_tr.jsp
+img=jcaptcha
+form=loginSelf.do
+SetPost(){ post="dispatch=login&userName=$username&password=$password&lang=${lang:-tr}&captchaResponse=$1"; }
+agree=confirmAgreement.do?dispatch=agree
+transfer=viewTransfer.do?dispatch=entry
+
+Wget ()
+{
+    wget -q --load-cookies c --save-cookies c --keep-session-cookies "$@"
+}
+
+Wget "$base/$login" -O /dev/null
+Wget "$base/$img" -O img
+printf '%s\n' "captcha image is at: $tmp/img"
+printf 'enter text please: '; read -r response; SetPost "$response"
+Wget "$base/$form" --post-data="$post" -O /dev/null
+Wget "$base/$agree" -O /dev/null
+Wget "$base/$transfer" -O - | while read -r line
+do
+    case $line in *'>Toplam Download<'*|*'>Total Download<'*)
+        read -r _; read -r _
+        IFS='<>()'
+        i=0
+        while [ $i -lt 3 ] && i=$(($i+1))
+        do
+            read -r _ _ y _; printf "$y/"
+            read -r _ _ m _; printf "$m:\t"
+            read -r _ _ b _ _ b2 _; printf "UL: $b ($b2)\t"
+            read -r _ _ b _ _ b2 _; printf "DL: $b ($b2)\n"
+            read _
+        done
+        break
+    esac
+done

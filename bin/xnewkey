@@ -1,0 +1,3 @@
+#!/bin/sh
+
+dd if=/dev/random bs=8 count=1 2> /dev/null | od -t x8 | { read _ s; xauth add "$DISPLAY" . $s; }

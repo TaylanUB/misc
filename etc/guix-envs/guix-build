@@ -1,0 +1,9 @@
+autoconf
+automake
+bzip2
+gcc-toolchain
+gettext
+guile
+libgcrypt
+pkg-config
+sqlite

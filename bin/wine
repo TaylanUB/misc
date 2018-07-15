@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo 'Please run wine32 or wine64.'
+exit 1

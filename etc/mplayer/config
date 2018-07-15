@@ -1,0 +1,13 @@
+[default]
+prefer-ipv4=yes
+fs=yes
+msgcolor=yes
+quiet=yes
+cache=16384
+cache-min=3
+vo=gl
+autosync=30
+#af=volnorm
+#softvol=yes
+#softvol-max=300
+#lavdopts=fast:skiploopfilter=bidir

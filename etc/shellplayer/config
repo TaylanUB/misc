@@ -1,0 +1,20 @@
+plsavedir=$SHELLPLAYER_CONFIG_DIR/playlists
+delayfile=$SHELLPLAYER_CONFIG_DIR/delay
+
+tmpdir=$SHELLPLAYER_TMPDIR
+
+mplayerfifo=$tmpdir/mplayerfifo
+
+Play ()
+{
+    test -p "$mplayerfifo" || mkfifo "$mplayerfifo"
+    mpv --vid=no --no-terminal --input-file="$mplayerfifo" -- "$1" 2>&1 \
+        | timestamp >> "$HOME_LOG"/shellplayer-mplayer.out
+}
+PausePlayer () { echo pause > "$mplayerfifo"; }
+ContPlayer () { echo pause > "$mplayerfifo"; }
+KillPlayer () { echo quit > "$mplayerfifo"; }
+
+# Set to non-null string to activate
+recursedirs=true
+#exitonerror=true

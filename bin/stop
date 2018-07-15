@@ -1,0 +1,13 @@
+#!/bin/sh
+
+i=0
+while IFS= read -r line
+do
+    if [ $i = 25 ]
+    then
+        read _ < /dev/tty
+        i=0
+    fi
+    printf '%s\n' "$line"
+    i=$(($i+1))
+done

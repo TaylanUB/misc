@@ -1,0 +1,84 @@
+#!/bin/sh
+
+usage_exit(){
+    echo >&2 "\
+Usage: guix-env <env-name> <command>
+Example: cd ~/src/libfoo; guix-env libfoo-build-env './configure && make'
+
+<env-name> should be the name of a file in $GUIX_ENVIRONMENTS; that file should
+contain a list of IFS separated package names.  $GUIX_ENVIRONMENTS defaults to
+$XDG_CONFIG_HOME/guix-environments.
+
+<command> should be a string that is shell code.
+
+The tool creates a profile for each environment, to prevent the packages of the
+environment from being garbage-collected.  The profile is updated on each use of
+the environment.  These profiles are stored in $GUIX_ENVIRONMENT_PROFILES,
+falling back to $XDG_CACHE_HOME/guix-environment-profiles.
+
+You might want to occasionally prune the automatically managed profiles so that
+packages in their older generations can be garbage collected."
+    exit 1
+}
+
+error_exit(){
+    echo >&2 "@ error: $1"
+    status=$2
+    exit ${status-1}
+}
+
+status(){
+    echo >&2 "@ $*"
+}
+
+if [ $# -ne 2 ]
+then usage_exit
+fi
+
+case $1 in
+    (-h | --help | -?) usage_exit
+esac
+
+: ${XDG_CONFIG_HOME="$HOME"/.config}
+: ${XDG_CACHE_HOME="$HOME"/.cache}
+: ${GUIX_ENVIRONMENTS="$XDG_CONFIG_HOME"/guix-environments}
+: ${GUIX_ENVIRONMENT_PROFILES="$XDG_CACHE_HOME"/guix-environment-profiles}
+
+envname=$1
+command=$2
+shift 2
+
+mkdir -p "$GUIX_ENVIRONMENT_PROFILES"; status=$?
+if [ $status -ne 0 ]
+then
+    error_exit "could not create the environment profiles directory: \
+$GUIX_ENVIRONMENT_PROFILES" $status
+fi
+
+envfile=$GUIX_ENVIRONMENTS/$envname
+
+packages=$(cat "$envfile"); status=$?
+if [ $status -ne 0 ]
+then
+    error_exit "could not read environment file: $envfile" $status
+fi
+
+profile=$GUIX_ENVIRONMENT_PROFILES/$envname
+
+installations=$(
+    for package in $packages
+    do
+        echo -i $package
+    done
+             )
+
+status "installing and updating packages in profile"
+guix package -p "$profile" $installations -u; status=$?
+if [ $status -ne 0 ]
+then
+    error_exit "could not install or update packages in profile: \
+$profile" $status
+fi
+
+status "executing command"
+exec guix environment --pure -E "$command" -- $packages

@@ -1,0 +1,34 @@
+#!/bin/sh
+
+warnings='-W -Wall -Wextra -pedantic -Wshadow -Wpointer-arith
+-Wcast-align -Wwrite-strings -Wmissing-prototypes
+-Wmissing-declarations -Wredundant-decls -Wnested-externs -Winline
+-Wno-long-long -Wuninitialized -Wconversion -Wstrict-prototypes'
+
+if [ -t 0 ] && [ $# -eq 0 ]
+then
+if [ "$rlwrap" ]
+    then
+while printf >&2 'C> '; read -r line
+        do "$0" '' "$line" # null arg prevents further option parsing
+        done
+else
+rlwrap=yeah exec rlwrap "$0"
+    fi
+else
+case $1 in
+    -p)
+        shift
+case $# in 0) cat ;; *) printf '%s\n' "$@"; esac
+        ;;
+    *)
+        printf '#include <%s>\n' \
+            assert.h ctype.h errno.h float.h limits.h math.h stdarg.h stddef.h stdio.h stdlib.h fcntl.h \
+            string.h time.h unistd.h complex.h inttypes.h wchar.h wctype.h stdbool.h signal.h stropts.h
+        printf '%s\n' 'int main(void){'
+        case $# in 0) cat ;; *) printf '%s\n' "$@"; esac
+printf '%s\n' 'return(0);}'
+    esac \
+    | clang -c -x c -emit-llvm $warnings -o - - \
+    | lli
+fi

@@ -1,0 +1,5 @@
+autoconf
+automake
+gettext
+make
+pkg-config

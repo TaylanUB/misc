@@ -1,0 +1,6 @@
+[Unit]
+Description=IMAP Synchronizer
+
+[Timer]
+Unit=isync.service
+OnCalendar=*-*-* *:00/10:00

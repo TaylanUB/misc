@@ -1,0 +1,34 @@
+#!/bin/sh
+
+[ $# -eq 0 ] && set -- "$(sp Current)"
+
+for file
+do
+    [ "$file" ] || continue
+    id3info -- "$file" | {
+        while IFS= read -r line
+        do
+            case $line in
+                ('=== TIT2 '*) song=${line#*: } ;;
+                ('=== TALB '*) album=${line#*: } ;;
+                ('=== TPE1 '*) artist=${line#*: } ;;
+            esac
+            if [ "$song" ] && [ "$album" ] && [ "$artist" ]
+            then
+                break
+            fi
+        done
+
+        if [ -z "$song" ]
+        then
+            name=${file#$HOME/media/mus/}
+            name=${name%.*}
+            printf '%s' "$name" | {
+                IFS=/ read -r artist album song
+                printf '%s\n' "♬  “$artist”  /  “$album”  /  “$song”"
+            }
+        else
+            printf '%s\n' "/me is listening to  “$song”${artist+  by  “$artist”}${album+  from  “$album”}"
+        fi
+    }
+done

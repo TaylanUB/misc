@@ -1,0 +1,58 @@
+#!/bin/sh
+
+FG () { printf '\033[38;05;%dm' $1; }
+BG () { printf '\033[48;05;%dm' $1; }
+
+reset=$(printf '\033[00m')
+
+numcolor=false
+maxcolor=256
+
+while [ $# -gt 0 ] && { arg=$1; shift; }
+do case $arg in
+
+t)
+    FG () { tput setaf $1; }
+    BG () { tput setab $1; }
+    reset=$(tput op)
+    ;;
+
+n)
+    numcolor=true
+    ;;
+
+c)
+    maxcolor=$1; shift
+    case $maxcolor in *[!0-9]*)
+        echo >&2 'invalid color number; setting to 256'
+        maxcolor=256
+    esac
+    ;;
+
+*)
+    printf >&2 'ignoring command-line argument: %s\n' "$arg"
+
+esac done
+
+c=$(tput cols)
+
+i=0
+l=0
+while [ $i -lt $maxcolor ]
+do
+    if $numcolor
+    then printf '%s%03d%s %s  %s' "$(FG $i)" $i "$reset" "$(BG $i)" "$reset"
+    else printf '%03d %s  %s' $i "$(BG $i)" "$reset"
+    fi
+    # The length of the resulting string is 6 (be careful if you change it)
+    # Plus we'll put 2 spaces between each string
+    # So this is how we decide when to put a newline:
+    if [ $((8*($i+1-($c/8+$c%8/6)*$l)+6)) -gt $c ]
+    # Remember all divisions are rounded down immediately
+    # We add 1 to i because it started from 0
+    then l=$(($l+1)); echo
+    else printf '  '
+    fi
+    i=$(($i+1))
+done
+echo

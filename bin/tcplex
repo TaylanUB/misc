@@ -1,0 +1,94 @@
+#!/bin/sh
+
+errfile=/dev/tty
+listenport=12345
+
+CheckID ()
+{
+    [ "$id" ] || ProtocolError
+    case $id in *[!a-zA-Z0-9_-]*) ProtocolError; esac
+}
+
+ProtocolError ()
+{
+    echo 'diagnostic protocol error'
+    continue
+}
+
+umask 0077
+
+dir=${TMPDIR:-/tmp}/tcplex-$$
+while [ -e "$dir" ] || [ -h "$dir" ]
+do dir=$dir-
+done
+
+mkdir "$dir" && cd "$dir" || exit
+
+mkfifo client-send client-receive
+
+socat tcp-listen:$listenport - < client-send > client-receive 2>> "$errfile" &
+exec > client-send
+exec < client-receive
+
+(
+set -f
+IFS=' '
+trap 'rm -rf "$dir"' INT TERM EXIT
+while IFS= read -r line
+do
+    case $line in
+    *' :'*)
+        set -- ${line%% :*} "${line#* :}"
+        ;;
+    *)
+        set -- $line
+    esac
+    command=$1; shift
+    case $command in
+    connect)
+        [ $# -eq 3 ] || ProtocolError
+        host=$1; port=$2; id=$3
+        CheckID
+        if [ -e server-$id-send ]
+        then
+            echo 'diagnostic already connected'
+            continue
+        fi
+        mkfifo server-$id-send
+        socat tcp:"$host":"$port" - < server-$id-send 2>> "$errfile" \
+        | while IFS= read -r line
+          do printf 'data %s %s\n' $id "$line"
+          done &
+        echo $! > server-$id-pid
+        while true; do sleep 999999; done > server-$id-send &
+        echo $! >> server-$id-pid
+        ;;
+    disconnect)
+        [ $# -eq 1 ] || ProtocolError
+        id=$2
+        CheckID
+        if ! [ -e server-$id-send ]
+        then
+            echo 'diagnostic already disconnected'
+            continue
+        fi
+        read pid < server-$id-pid
+        kill $pid
+        rm server-$id-send server-$id-pid
+        ;;
+    send)
+        [ $# -eq 2 ] || ProtocolError
+        id=$1; message=$2
+        CheckID
+        if ! [ -e server-$id-send ]
+        then
+            echo 'diagnostic not connected'
+            continue
+        fi
+        printf '%s\n' "$message" > server-$id-send
+        ;;
+    *)
+        ProtocolError
+    esac
+done
+) < client-receive > client-send &

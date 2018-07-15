@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec nginx -c "$HOME_CONFIG"/nginx/nginx.conf -p ~/srv/http "$@"

@@ -1,0 +1,15 @@
+#!/bin/sh
+
+chibidir=$HOME_SRC/chibi-scheme
+
+export LD_LIBRARY_PATH=$chibidir
+export CHIBI_MODULE_PATH=$chibidir/lib
+
+exec "$chibidir"/chibi-scheme \
+     -I "$HOME_SRC"/scheme \
+     -I "$HOME_SRC"/scheme/srfi \
+     -I "$HOME_SRC"/scheme/srfi-126 \
+     -I "$HOME_SRC"/scheme/bytestructures \
+     -I "$HOME_SRC"/larceny/tools/R6RS \
+     -I "$chibidir"/lib/needed-for-init \
+     "$@"

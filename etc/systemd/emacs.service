@@ -1,0 +1,6 @@
+[Unit]
+Description=Emacs Daemon
+
+[Service]
+Type=forking
+ExecStart=/bin/sh -c 'emacs-daemon'

@@ -1,0 +1,65 @@
+#!/bin/sh
+
+N=${1:-13}
+case $N in *[!0-9]*) echo >&2 "$0: error: $N: NaN"; exit 1; esac
+
+while IFS= read -r line
+do
+
+    i=1; while [ $i -le ${#line} ]
+    do
+
+        c=${line#$(j=1; while [ $j -lt $i ]; do printf \?; j=$(($j+1)); done)}
+        c=${c%$(j=1; while [ $j -lt ${#c} ]; do printf \?; j=$(($j+1)); done)}
+
+        noconv=false
+        caps=false
+
+        case $c in
+        a) n=0  ;; b) n=1  ;; c) n=2  ;; d) n=3  ;; e) n=4  ;; f) n=5  ;; g) n=6  ;; h) n=7  ;;
+        i) n=8  ;; j) n=9  ;; k) n=10 ;; l) n=11 ;; m) n=12 ;; n) n=13 ;; o) n=14 ;; p) n=15 ;;
+        q) n=16 ;; r) n=17 ;; s) n=18 ;; t) n=19 ;; u) n=20 ;; v) n=21 ;; w) n=22 ;; x) n=23 ;;
+        y) n=24 ;; z) n=25 ;;
+
+        *)
+            caps=true
+            case $c in
+            A) n=0  ;; B) n=1  ;; C) n=2  ;; D) n=3  ;; E) n=4  ;; F) n=5  ;; G) n=6  ;; H) n=7  ;;
+            I) n=8  ;; J) n=9  ;; K) n=10 ;; L) n=11 ;; M) n=12 ;; N) n=13 ;; O) n=14 ;; P) n=15 ;;
+            Q) n=16 ;; R) n=17 ;; S) n=18 ;; T) n=19 ;; U) n=20 ;; V) n=21 ;; W) n=22 ;; X) n=23 ;;
+            Y) n=24 ;; Z) n=25 ;;
+            *) noconv=true
+            esac
+
+        esac
+
+        if $noconv
+        then printf %s "$c"
+        else
+
+            n=$(( ($n+$N)%26 ))
+
+            if $caps
+            then case $n in
+                 0) printf A ;;  1) printf B ;;  2) printf C ;;  3) printf D ;;  4) printf E ;;  5) printf F ;;
+                 6) printf G ;;  7) printf H ;;  8) printf I ;;  9) printf J ;; 10) printf K ;; 11) printf L ;;
+                12) printf M ;; 13) printf N ;; 14) printf O ;; 15) printf P ;; 16) printf Q ;; 17) printf R ;;
+                18) printf S ;; 19) printf T ;; 20) printf U ;; 21) printf V ;; 22) printf W ;; 23) printf X ;;
+                24) printf Y ;; 25) printf Z ;;
+            esac else case $n in
+                 0) printf a ;;  1) printf b ;;  2) printf c ;;  3) printf d ;;  4) printf e ;;  5) printf f ;;
+                 6) printf g ;;  7) printf h ;;  8) printf i ;;  9) printf j ;; 10) printf k ;; 11) printf l ;;
+                12) printf m ;; 13) printf n ;; 14) printf o ;; 15) printf p ;; 16) printf q ;; 17) printf r ;;
+                18) printf s ;; 19) printf t ;; 20) printf u ;; 21) printf v ;; 22) printf w ;; 23) printf x ;;
+                24) printf y ;; 25) printf z ;;
+            esac fi
+
+        fi
+
+        i=$(($i+1))
+
+    done
+
+    echo
+
+done

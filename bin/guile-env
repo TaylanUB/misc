@@ -1,0 +1,4 @@
+#!/bin/sh
+
+exec guix environment guile --ad-hoc autoconf automake gettext libtool  --pure \
+     -- "$@"

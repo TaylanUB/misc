@@ -1,0 +1,9 @@
+#MozillaGtkWidget scrollbar {
+    -GtkRange-slider-width: 3;
+    -GtkRange-trough-border: 0;
+}
+
+#MozillaGtkWidget .slider {
+    background-color: #333;
+    color: #aaa;
+}

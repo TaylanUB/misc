@@ -1,0 +1,31 @@
+#!/bin/sh
+
+PS(){ ps -elfww; }
+pid_col=4
+ppid_col=5
+
+if [ $# -eq 0 ]
+then
+    PS
+else
+    PS | awk -v own_pid=$$ -v pid_col=$pid_col -v ppid_col=$ppid_col -v needle="$*" '
+       NR == 1 {
+         head = $0 "\n"
+       }
+       $pid_col == own_pid || $ppid_col == own_pid {
+         next
+       }
+       { hay = ""
+         for (i = 11; i <= NF; ++i)
+           hay = hay $i
+         if (hay ~ needle)
+           matches = matches $0 "\n"
+       }
+       END {
+         if (matches)
+           printf("%s%s", head, matches)
+         else
+           exit(1)
+       }
+    '
+fi

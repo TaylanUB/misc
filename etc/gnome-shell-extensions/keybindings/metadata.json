@@ -1,0 +1,7 @@
+{
+  "uuid": "keybindings@taylan.local",
+  "name": "Keybindings",
+  "description": "Allow binding keyboard shortcuts to JS functions.",
+  "url": "n/a",
+  "shell-version": "3.2.2"
+}

@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Don't complain if a higher wrapper sets a lower limit
+#ulimit -d $((1024*1024*3)) 2> /dev/null
+#ulimit -s $((1024*32)) 2> /dev/null
+#ulimit -m 1976236 2> /dev/null
+#ulimit -l 1976236 2> /dev/null
+
+exec runreal java \
+    ${JAVA_HEAP_MIN+-Xms"$JAVA_HEAP_MIN"M} \
+    ${JAVA_HEAP_MAX+-Xmx"$JAVA_HEAP_MAX"M} \
+    "$@"

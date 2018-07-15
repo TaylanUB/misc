@@ -1,0 +1,7 @@
+#!/bin/sh
+
+#FF=/gnu/store/wmzqcl6abzvy1h42d1n9lphw61bpifz6-icecat-38.8.0-gnu2/bin/icecat
+#FF=icecat
+FF=/usr/bin/firefox
+
+exec "$FF" "$@"

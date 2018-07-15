@@ -1,0 +1,17 @@
+#!/bin/sh
+
+case $PATH in
+    ($HOME/bin:*)
+        PATH=${PATH#$HOME/bin:}
+        ;;
+    (*:$HOME/bin:*)
+        PATH=${PATH%:$HOME/bin:*}:${PATH#*:$HOME/bin:}
+        ;;
+    (*:$HOME/bin)
+        PATH=${PATH%:$HOME/bin}
+        ;;
+esac
+
+export PATH
+
+exec "$@"

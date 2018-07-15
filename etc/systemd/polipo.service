@@ -1,0 +1,5 @@
+[Unit]
+Description=Polipo HTTP Proxy
+
+[Service]
+ExecStart=/bin/sh -c 'exec polipo diskCacheRoot= logFile=/dev/null'

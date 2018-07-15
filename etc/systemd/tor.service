@@ -1,0 +1,5 @@
+[Unit]
+Description=Tor Node
+
+[Service]
+ExecStart=/bin/sh -c 'exec tor -f "$HOME_CONFIG"/tor/rc RunAsDaemon 0'

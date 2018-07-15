@@ -1,0 +1,5 @@
+[Unit]
+Description=Mount / from T61
+
+[Service]
+ExecStart=/bin/sh -c 'exec sshfs -f root@t61:/ ~/t61'

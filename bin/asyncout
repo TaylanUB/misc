@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Some tools override their buffer settings or don't use stream I/O and thus
+# don't work with stdbuf.  Sed should work.
+"$@" | stdbuf -o 50M sed ''

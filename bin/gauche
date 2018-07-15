@@ -1,0 +1,10 @@
+#!/bin/sh
+
+export GAUCHE_LOAD_PATH="\
+$HOME_SRC/scheme:\
+$HOME_SRC/scheme/srfi:\
+$HOME_SRC/scheme/srfi-126:\
+$HOME_SRC/scheme/bytestructures:\
+$HOME_SRC/larceny/tools/R6RS"
+
+exec gosh "$@"

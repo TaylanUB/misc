@@ -1,0 +1,7 @@
+[Unit]
+Description=FreeDNS Updater
+
+[Service]
+Restart=always
+RestartSec=5m
+ExecStart=/bin/sh -c 'exec freedns-updater'

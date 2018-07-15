@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd ~/mcserver || exit
+
+exec java -Xmx1024M -Xms1024M -jar ~/tmp/minecraft_server.1.11.2.jar "$@"

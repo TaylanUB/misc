@@ -1,0 +1,18 @@
+;; (use-modules (ice-9 readline))
+;; (activate-readline)
+(use-modules (texinfo reflection))
+(cond-expand
+ (r7rs
+  (begin
+    (read-enable 'r6rs-hex-escapes)
+    (read-enable 'hungry-eol-escapes)
+    (read-enable 'r7rs-symbols)
+    (print-enable 'r7rs-symbols)
+    (print-enable 'datum-labels)
+    (module-add! (resolve-module '(r7rs))
+                 'import
+                 (module-variable (resolve-module '(guile)) 'import))
+    (set! %load-path
+          (cons (string-append (getenv "HOME_SRC") "/scheme/srfi")
+                %load-path))))
+ (else))

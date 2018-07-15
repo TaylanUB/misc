@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd
+unset DISPLAY
+exec emacs --daemon "$@"

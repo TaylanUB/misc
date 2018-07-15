@@ -1,0 +1,3 @@
+#!/bin/sh
+
+exec guix environment guix --ad-hoc texlive imagemagick git --pure -- "$@"

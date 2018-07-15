@@ -1,0 +1,4 @@
+#!/bin/sh
+
+sshfs t61:media ~/media
+sshfs t61:downloads ~/downloads

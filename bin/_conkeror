@@ -1,0 +1,11 @@
+#!/bin/sh
+
+firefox -app "$HOME_SRC"/conkeror/application.ini "$@" > /dev/null 2>&1
+
+# if ! { pkill -0 icecat || pkill -0 firefox; }
+# then
+#     find "$HOME_JUNK"/conkeror -type f -exec shred -zn0 {} +
+#     find "$XDG_CACHE_HOME"/conkeror.mozdev.org -type f -exec shred -zn0 {} +
+#     rm -rf "$HOME_JUNK"/conkeror/* "$XDG_CACHE_HOME"/conkeror.mozdev.org
+#     ratpoison -c "echo Browser data shredded."
+# fi

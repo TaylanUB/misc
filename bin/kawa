@@ -1,0 +1,36 @@
+#!/bin/bash
+
+kawadir=$HOME_SRC/kawa
+
+export CLASSPATH=$kawadir/kawa-2.0.1.jar:$CLASSPATH
+
+if test -t 0
+then no_console=
+else no_console=--no-console
+fi
+
+command_line="kawa $*"
+
+i=0
+for arg in "$@"
+do
+    case $arg in
+        (-D* | -J*)
+            jvm_args[i++]=$arg
+            shift
+            ;;
+        (*)
+            break
+    esac
+done
+
+exec java \
+     -Dkawa.command.line="$command_line" \
+     -Dkawa.import.path="\
+$HOME_SRC/scheme/*.sld:\
+$HOME_SRC/scheme/srfi/*.sld:\
+$HOME_SRC/scheme/srfi-126/*.sld:\
+$HOME_SRC/scheme/bytestructures/*.sld:\
+$HOME_SRC/larceny/tools/R6RS/*.sld" \
+     "${jvm_args[@]}" \
+     kawa.repl $no_console "$@"

@@ -1,0 +1,5 @@
+[Unit]
+Description=BitlBee Server
+
+[Service]
+ExecStart=/bin/sh -c 'exec bitlbee -Dn -c "$HOME_CONFIG"/bitlbee/bitlbee.conf'

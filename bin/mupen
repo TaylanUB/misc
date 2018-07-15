@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd ~/src/mupen64plus/test
+exec ./mupen64plus "$@"

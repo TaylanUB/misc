@@ -1,0 +1,15 @@
+#!/bin/sh
+
+enabledfile=$HOME_TMP/synaptics-enabled
+
+[ -f "$enabledfile" ] || > "$enabledfile"
+read enabled < "$enabledfile"
+
+if [ "$enabled" ]
+then
+    > "$enabledfile"
+    synclient touchpadoff=1
+else
+    echo 1 > "$enabledfile"
+    synclient touchpadoff=0
+fi

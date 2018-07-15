@@ -1,0 +1,12 @@
+[user]
+	name = Taylan Ulrich Bayırlı/Kammer
+	email = taylanbayirli@gmail.com
+
+[branch]
+	autosetuprebase = always
+
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.gmail.com
+	smtpuser = taylanbayirli@gmail.com
+	smtpserverport = 587

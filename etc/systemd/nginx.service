@@ -1,0 +1,7 @@
+[Unit]
+Description=NGINX HTTP Server
+
+[Service]
+Type=forking
+ExecStart=/bin/sh -c 'nginx -c "$HOME_CONFIG"/nginx/nginx.conf -p ~/srv/http'
+ExecStop=/bin/sh -c 'nginx -s quit; sleep 5'

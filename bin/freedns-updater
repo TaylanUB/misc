@@ -1,0 +1,59 @@
+#!/bin/sh
+#
+# FreeDNS updater script
+#
+
+curl -s curl -s http://v6.sync.afraid.org/u/3YRAR3IfLRVbbnN1UiDTjWrx/ \
+     | timestamp >> "$HOME_LOG"/freedns 2>&1
+
+exit
+# Legacy version below
+
+getip(){ curl -6 http://myexternalip.com/raw; }
+read api_key < "$HOME_CONFIG"/freedns-secret
+domain=taylan.uni.cx
+
+getentry(){
+    entry=$1
+    api_url="https://freedns.afraid.org/api/?v=2&action=getdyndns&sha=$api_key"
+    # Ensure the terminating newline via echo:
+    (wget -q -O - "$api_url" && echo) | while IFS="|" read dom ip update_url
+    do
+        if [ "$dom" = "$domain" ]
+        then
+            case $entry in
+                (ip) echo "$ip" ;;
+                (update_url) echo "$update_url" ;;
+            esac
+        fi
+    done
+}
+
+update_url=$(getentry update_url)
+
+if [ -z "$update_url" ]
+then
+    echo >&2 "Could not get update URL."
+    exit 1
+fi
+
+update(){
+    ip=$1
+    wget -nv -O - "$update_url&address=$ip" 2>&1 | timestamp \
+                                                       >> "$HOME_LOG"/freedns
+}
+
+exec >&- 2>&-
+
+saved_ip=
+while true
+do
+    actual_ip=$(getip)
+    until [ "$saved_ip" = "$actual_ip" ]
+    do
+        update "$actual_ip"
+        sleep 30
+        saved_ip=$(getentry ip)
+    done
+    sleep 300
+done

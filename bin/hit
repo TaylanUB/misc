@@ -1,0 +1,44 @@
+#!/bin/sh
+#
+# ~/bin/hit: It's like 'touch', but a bit more forceful.
+#
+# Depends on 'readlink -m' (GNU coreutils).
+#
+# For each argument:
+#   Absolute destination of pathname ('readlink -m' output) is created, parent dirs included.
+#   If the '-d' option is given, final destination will be a directory.
+#
+# Will fail in obvious cases:
+#   Name of parent dir points to existing (non-dir) file.
+#   No permission, no space left on filesystem, ...
+#
+# Supports '-v' for verbose.
+
+dir=false
+v=false
+for arg
+do case $arg in
+-d) dir=true ;;
+-v) v=true ;;
+--) break
+esac done
+
+if $dir
+then
+    for file
+    do
+        $v && printf >&2 'creating dir(s): %s\n' "$file"
+        mkdir -p -- "$(readlink -m "$file")"
+    done
+else
+    for file
+    do
+        final=$(readlink -m -- "$file")
+
+        $v && printf >&2 'creating dir(s): %s\n' "${final%/*}"
+        mkdir -p -- "${final%/*}"
+
+        $v && printf >&2 'creating file: %s\n' "$final"
+        >> "$final"
+    done
+fi

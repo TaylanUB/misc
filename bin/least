@@ -1,0 +1,15 @@
+#!/bin/sh
+
+lines=$(($(tput lines) - 3))
+exit=false
+while read -r _ < /dev/tty
+do
+    i=$lines
+    while [ $i -gt 0 ]
+    do
+        i=$(($i-1))
+        IFS= read -r line || exit=true
+        printf '%s\n' "$line"
+        if $exit; then exit; fi
+    done
+done < "$1"

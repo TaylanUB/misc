@@ -1,0 +1,41 @@
+#!/bin/ksh
+
+uri=$1; shift
+
+i=0
+encountereddash=false
+set -A ytdlargs
+set -A mplayerargs
+
+for arg in "$@"
+do
+    shift
+    case $arg in
+        (--)
+            encountereddash=true
+            break
+            ;;
+        (*)
+            ytdlargs[i++]=$arg
+    esac
+done
+
+if $encountereddash
+then
+    i=0
+    for arg in "$@"
+    do
+        mplayerargs[i++]=$arg
+        shift
+    done
+else
+    i=0
+    for file in "${ytdlargs[@]}"
+    do
+        mplayerargs[i]=${ytdlargs[i]}
+        let ++i
+    done
+    set -A args
+fi
+
+exec mplayer "${mplayerargs[@]}" "$(youtube-dl "${ytdlargs[@]}" -g "$uri")"

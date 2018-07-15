@@ -1,0 +1,10 @@
+SHELL=/bin/bash
+@reboot /home/taylan/bin/profilewrap start-bitlbee
+@reboot /home/taylan/bin/profilewrap start-tor
+#@reboot /home/taylan/bin/profilewrap start-i2p
+#@reboot /home/taylan/bin/profilewrap start-freenet
+#@reboot /home/taylan/bin/profilewrap start-polipo
+#@reboot /home/taylan/bin/profilewrap start-nginx
+#@reboot /home/taylan/bin/profilewrap start-freedns-updater
+@reboot /home/taylan/bin/profilewrap emacs-daemon > /dev/null 2>&1
+#@reboot   "/home/taylan/.junk/Freenet/run.sh" start 2>&1 >/dev/null #FREENET AUTOSTART - 8888

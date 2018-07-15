@@ -1,0 +1,6 @@
+[Unit]
+Description=Freenet Node
+
+[Service]
+Type=forking
+ExecStart=/bin/sh -c '~/.junk/Freenet/run.sh start'

@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=Application
+Name=Init
+Exec=/home/taylan/bin/xinitrc
