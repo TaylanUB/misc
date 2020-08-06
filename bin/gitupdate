@@ -15,7 +15,9 @@ cd "$HOME_SRC"/misc
 
 git add .
 
-ts=$(date -u '+%Y-%m-%d %H:%M:%S')
+git reset -q
+
+#ts=$(date -u '+%Y-%m-%d %H:%M:%S')
 
 #git diff --cached --quiet || git commit -qm "$ts"
 
