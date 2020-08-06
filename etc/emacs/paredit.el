@@ -2,6 +2,7 @@
 
 (add-hook 'prog-mode-hook 'paredit-mode)
 (add-hook 'ielm-mode-hook 'paredit-mode)
+(add-hook 'mmm-mode-hook 'paredit-mode)
 
 (add-hook 'minibuffer-setup-hook 'paredit-minibuffer-setup)
 (defun paredit-minibuffer-setup ()

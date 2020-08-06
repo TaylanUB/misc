@@ -33,7 +33,7 @@ entirely."
  (emacs-config (sysdir 'emacs-config-dir))
  (emacs-junk (sysdir 'emacs-junk-dir)))
 
-(add-to-list 'load-path (sysdir 'home-usr "share/emacs/site-lisp"))
+;(add-to-list 'load-path (sysdir 'home-usr "share/emacs/site-lisp"))
 (add-to-list 'load-path (sysdir 'guix-profile "share/emacs/site-lisp"))
 
 (setq-default
@@ -46,6 +46,8 @@ entirely."
  )
 
 (setq
+
+ gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"
 
  scroll-preserve-screen-position 'keep
 
@@ -104,7 +106,7 @@ entirely."
 
 (cl-loop
  for (key val) in
- `((font "Terminus 10")
+ `((font "Terminus 12")
    (scroll-bar nil)
    (fullscreen fullboth))
  do (aput 'default-frame-alist key val))
@@ -194,8 +196,8 @@ entirely."
          `(secrets                                     ;This always first.
            keymap                                      ;This always second.
            undo-tree ibuffer dired ido tramp webjump term mail
-           text nxml prog scheme clojure paredit
-           workgroups circe lterm w3m
+           text nxml prog paredit workgroups circe
+           web-dev
            ))
   (load (emacs-config-file (symbol-name file))))
 

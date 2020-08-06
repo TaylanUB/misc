@@ -17,6 +17,6 @@ git add .
 
 ts=$(date -u '+%Y-%m-%d %H:%M:%S')
 
-git diff --cached --quiet || git commit -qm "$ts"
+#git diff --cached --quiet || git commit -qm "$ts"
 
-git push -q origin master
+#git push -q origin master

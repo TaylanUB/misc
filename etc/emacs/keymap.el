@@ -1,6 +1,6 @@
 (defun start-graphical-browser ()
   (interactive)
-  (start-process "www" nil "conkeror"))
+  (start-process "www" nil (getenv "WWW")))
 
 (defun start-graphical-terminal ()
   (interactive)
@@ -49,3 +49,7 @@
   '(define-keys ibuffer-mode-map
      ("M-o" nil)
      ))
+
+(eval-after-load "workgroups"
+  '(define-keys global-map
+     ("C-x k" 'kill-this-buffer)))

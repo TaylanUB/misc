@@ -12,10 +12,10 @@
 (defun evince (file)
   (start-process "evince" nil "evince" file))
 
-(dolist
-    (entry
-     '((("mp3" "flac" "aac" "wav") . shellplayer-play)
-       (("mkv" "mp4" "wmv" "webm" "avi" "mpg" "mov" "flv" "mts") . mplayer)
-       (("gp3" "gp4") . tuxguitar)
-       ("pdf" . evince)))
-  (add-to-list 'file-dwim-action-list entry))
+;; (dolist
+;;     (entry
+;;      '((("mp3" "flac" "aac" "wav") . shellplayer-play)
+;;        (("mkv" "mp4" "wmv" "webm" "avi" "mpg" "mov" "flv" "mts") . mplayer)
+;;        (("gp3" "gp4") . tuxguitar)
+;;        ("pdf" . evince)))
+;;   (add-to-list 'file-dwim-action-list entry))

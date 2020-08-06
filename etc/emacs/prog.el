@@ -1,4 +1,4 @@
-(defvar prog-mode-fill-column 80
+(defvar prog-mode-fill-column 120
   "Value of `fill-column' for `prog-mode'.")
 
 (add-hook 'prog-mode-hook 'taylan-prog-mode-setup)

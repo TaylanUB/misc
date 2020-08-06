@@ -29,7 +29,7 @@ define EMAIL "taylanbayirli@gmail.com"
 define EDITOR "emacsclient"
 define VISUAL "emacsclient"
 define VTERM  "xterm"
-define WWW    "conkeror"
+define WWW    "firefox"
 define XWM    "ratpoison"
 
 define ALTERNATE_EDITOR ""
@@ -87,6 +87,12 @@ define XENVIRONMENT "$HOME_CONFIG/x/resources"
 
 # Pathes:
 
+case $PATH in
+    (*tkammer/bin*) ;;
+    (*) define PATH "/home/tkammer/bin:$PATH"
+esac
+
+__noop(){
 p=/run/current-system/profile
 
 define PATH              "$HOME/bin:$XDG_CONFIG_HOME/guix/current/bin:\
@@ -122,5 +128,6 @@ define GUILE_LOAD_COMPILED_PATH \
        "$p/lib/guile/2.2/site-ccache:$p/share/guile/site/2.2"
 
 unset p
+}
 
 # End of profile.

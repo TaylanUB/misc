@@ -2,17 +2,17 @@
 
 # To be called from the actual xinitrc as well as GNOME autostart script
 
-synclient \
-    TapButton1=1 \
-    CoastingSpeed=0 \
-    AreaLeftEdge=2000 AreaRightEdge=4500
+#synclient \
+#    TapButton1=1 \
+#    CoastingSpeed=0 \
+#    AreaLeftEdge=2000 AreaRightEdge=4500
 
 xset \
     r rate 250 30 \
     b off \
     s off \
-    dpms 0 0 600
+    #dpms 0 0 600
 
 xcolemak
 
-unclutter -idle 1 &
+#unclutter -idle 1 &

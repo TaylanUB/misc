@@ -74,6 +74,10 @@
     ("Guix" (in-directory . ,(sysdir 'home-src "guix")))
     ("Scheme" (in-directory . ,(sysdir 'home-src "scheme")))
     ("~/bin" (in-directory . ,(sysdir 'home-bin)))
+    ("LM Orders Server"
+     (in-directory . ,(sysdir 'home-src "work/ledermeid-orders-server")))
+    ("LM Orders Client"
+     (in-directory . ,(sysdir 'home-src "work/ledermeid-orders-client")))
     ("Other Projects" (in-directory . ,(sysdir 'home-src)))
     ))
 
